@@ -1,9 +1,13 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.post('/', function(req, res, next) {
+    // console.log(req.body.token);
+    // console.log(process.env.NODE_ENV);
+    res.json({
+        response_type: "in_channel",
+        text: ":parrot:"
+    });
 });
 
 module.exports = router;
