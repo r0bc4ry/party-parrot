@@ -37,7 +37,7 @@ router.post('/', function(req, res, next) {
         }).catch(function(error) {
             process.stdout.write('ERROR!');
             if (error) {
-                process.stdout.write(error);
+                process.stdout.write(error.toString());
             }
             res.status(400).json({
                 error: {
@@ -61,10 +61,10 @@ function getAccessToken() {
         }, function(error, response, body) {
             process.stdout.write('ACCESS');
             if (error) {
-                process.stdout.write(error);
+                process.stdout.write(error.toString());
             }
             if (body) {
-                process.stdout.write(body);
+                process.stdout.write(body.toString());
             }
             if (!error && response.statusCode == 200) {
                 client.set('access_token', body.access_token);
