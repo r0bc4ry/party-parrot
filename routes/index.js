@@ -67,7 +67,8 @@ function getAccessToken() {
 function getTracks() {
     return new Promise(function(resolve, reject) {
         client.get('access_token', function(err, reply) {
-            request.get('https://api.spotify.com/v1/users/1213343043/playlists/4HyRbS6komQ56vIkB6jnlX/tracks', {
+            var spotifyPlaylistUrl = Math.random() < 0.5 ? 'https://api.spotify.com/v1/users/spotify/playlists/2JkjXscXs35c5wKE5ZeaYK/tracks' : 'https://api.spotify.com/v1/users/spotify/playlists/2ruCyy85iUzZcTZbeSVFRY/tracks';
+            request.get(spotifyPlaylistUrl, {
                 headers: {
                     Authorization: 'Bearer ' + reply
                 },
