@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
     res.redirect('http://cultofthepartyparrot.com/');
 });
 
-router.post('/', function(req, res, next) {
+router.post('/party', function(req, res, next) {
     // Check if Slack token is valid
     if (req.body.token !== process.env.TOKEN) {
         res.json({text: 'Invalid Slack token.'});
@@ -28,6 +28,18 @@ router.post('/', function(req, res, next) {
         }).catch(function(reason) {
             res.json({text: reason});
         });
+    });
+});
+
+router.post('/partyhard', function(req, res, next) {
+    // Check if Slack token is valid
+    if (req.body.token !== process.env.TOKEN) {
+        res.json({text: 'Invalid Slack token.'});
+    }
+
+    res.json({
+        response_type: 'in_channel',
+        text: ':fastparrot:\nhttps://open.spotify.com/track/0E0bZtTG39K95uRjqBo1Mx'
     });
 });
 
