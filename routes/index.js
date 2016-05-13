@@ -1,4 +1,4 @@
-var client = require('redis').createClient();
+var client = require('redis').createClient(process.env.REDIS_URL);
 var express = require('express');
 var request = require('request');
 var router = express.Router();
