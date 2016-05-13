@@ -35,8 +35,8 @@ router.post('/', function(req, res, next) {
                 text: ':parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot:\n' + song.track.external_urls.spotify
             });
         }).catch(function(error) {
-            console.log('ERROR!');
-            console.log(error);
+            process.stdout.write('ERROR!');
+            process.stdout.write(error);
             res.status(400).json({
                 error: {
                     code: 400,
@@ -57,9 +57,9 @@ function getAccessToken() {
             json: true,
             body: 'grant_type=client_credentials'
         }, function(error, response, body) {
-            console.log('ACCESS');
-            console.log(error);
-            console.log(body);
+            process.stdout.write('ACCESS');
+            process.stdout.write(error);
+            process.stdout.write(body);
             if (!error && response.statusCode == 200) {
                 client.set('access_token', body.access_token);
                 client.expire('access_token', body.expires_in);
