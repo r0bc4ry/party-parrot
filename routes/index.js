@@ -10,41 +10,23 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
     // Check if Slack token is valid
     if (req.body.token !== process.env.TOKEN) {
-        res.status(400).json({
-            error: {
-                code: 400,
-                message: 'Invalid Slack token'
-            }
-        });
+        res.json({text: 'Invalid Slack token.'});
     }
 
+    // Get access token from Redis or retrieve it from Spotify
     client.get('access_token', function(err, reply) {
         var spotifyPromise = reply ? getTracks() : getAccessToken();
         spotifyPromise.then(function(song) {
             if (!song) {
-                res.status(400).json({
-                    error: {
-                        code: 400,
-                        message: 'No song found'
-                    }
-                });
+                res.json({text: 'No song found.'});
             }
 
             res.json({
                 response_type: 'in_channel',
                 text: ':parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot:\n' + song.track.external_urls.spotify
             });
-        }).catch(function(error) {
-            process.stdout.write('ERROR!');
-            if (error) {
-                process.stdout.write(error.toString());
-            }
-            res.status(400).json({
-                error: {
-                    code: 400,
-                    message: error
-                }
-            });
+        }).catch(function(reason) {
+            res.json({text: reason});
         });
     });
 });
@@ -59,25 +41,18 @@ function getAccessToken() {
             json: true,
             body: 'grant_type=client_credentials'
         }, function(error, response, body) {
-            process.stdout.write('ACCESS');
-            if (error) {
-                process.stdout.write(error.toString());
+            if (error || response.statusCode !== 200) {
+                return reject(error || body);
             }
-            if (body) {
-                process.stdout.write(body.toString());
-            }
-            if (!error && response.statusCode == 200) {
-                client.set('access_token', body.access_token);
-                client.expire('access_token', body.expires_in);
 
-                getTracks().then(function(song) {
-                    resolve(song);
-                }).catch(function(error) {
-                    reject(error)
-                });
-            } else {
-                reject(error);
-            }
+            client.set('access_token', body.access_token);
+            client.expire('access_token', body.expires_in);
+
+            getTracks().then(function(song) {
+                resolve(song);
+            }).catch(function(reason) {
+                reject(reason)
+            });
         });
     });
 }
@@ -91,14 +66,14 @@ function getTracks() {
                 },
                 json: true
             }, function(error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    var songs = body.items;
-                    var song = songs[Math.floor(Math.random() * songs.length)];
-
-                    resolve(song);
-                } else {
-                    reject(error);
+                if (error || response.statusCode !== 200) {
+                    return reject(error || body);
                 }
+
+                var songs = body.items;
+                var song = songs[Math.floor(Math.random() * songs.length)];
+
+                resolve(song);
             });
         });
     });
