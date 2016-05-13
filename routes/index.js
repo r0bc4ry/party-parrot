@@ -3,6 +3,10 @@ var express = require('express');
 var request = require('request');
 var router = express.Router();
 
+router.get('/', function(req, res, next) {
+    res.redirect('http://cultofthepartyparrot.com/');
+});
+
 router.post('/', function(req, res, next) {
     // Check if Slack token is valid
     if (req.body.token !== process.env.TOKEN) {
