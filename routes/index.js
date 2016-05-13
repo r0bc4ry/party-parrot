@@ -32,7 +32,7 @@ router.post('/', function(req, res, next) {
 
             res.json({
                 response_type: 'in_channel',
-                text: ':parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot: :parrot:\n' + song.track.external_urls.spotify
+                text: ':parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot::parrot:\n' + song.track.external_urls.spotify
             });
         }).catch(function(error) {
             res.status(400).json({
@@ -55,9 +55,6 @@ function getAccessToken() {
             json: true,
             body: 'grant_type=client_credentials'
         }, function(error, response, body) {
-            console.log('getAccessToken');
-            console.log(error);
-            console.log(body);
             if (!error && response.statusCode == 200) {
                 client.set('access_token', body.access_token);
                 client.expire('access_token', body.expires_in);
@@ -80,9 +77,6 @@ function getTracks() {
                 },
                 json: true
             }, function(error, response, body) {
-                console.log('getTracks');
-                console.log(error);
-                console.log(body);
                 if (!error && response.statusCode == 200) {
                     var songs = body.items;
                     var song = songs[Math.floor(Math.random() * songs.length)];
