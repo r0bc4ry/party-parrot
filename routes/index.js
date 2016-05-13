@@ -6,7 +6,7 @@ router.post('/', function(req, res, next) {
     // console.log(process.env.NODE_ENV);
     res.json({
         response_type: "in_channel",
-        text: ":parrot:"
+        text: ":parrot: :parrot: :parrot: :parrot:\nhttps://open.spotify.com/track/67awxiNHNyjMXhVgsHuIrs"
     });
 });
 
