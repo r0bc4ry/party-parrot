@@ -13,10 +13,33 @@ router.post('/', function(req, res, next) {
         res.json({text: 'Invalid Slack token.'});
     }
 
+    // Support /party hard slash command
     if (req.body.text === 'hard') {
         res.json({
             response_type: 'in_channel',
             text: ':fastparrot:\nhttps://open.spotify.com/track/0E0bZtTG39K95uRjqBo1Mx'
+        });
+    }
+
+    // Support /party soft slash command
+    if (req.body.text === 'soft') {
+        var songs = [
+            'https://open.spotify.com/track/4jDmJ51x1o9NZB5Nxxc7gY',
+            'https://open.spotify.com/track/27ncbKwESFYzgBo9RN9IXe',
+            'https://open.spotify.com/track/1rLYWSXPrJGWnlGlSwPEia',
+            'https://open.spotify.com/track/4eHbdreAnSOrDDsFfc4Fpm',
+            'https://open.spotify.com/track/5GorFaKkP2mLREQvhSblIg',
+            'https://open.spotify.com/track/3Otjx9ULpmWdUbkDTYDXHc',
+            'https://open.spotify.com/track/68K0qD0VDqdm0eWXsGqnvM',
+            'https://open.spotify.com/track/665Jxlgi1HamPKbW1vwzx4',
+            'https://open.spotify.com/track/69hwHdKl4Y1HusAutt3W6q',
+            'https://open.spotify.com/track/7GhIk7Il098yCjg4BQjzvb'
+        ];
+        var song = songs[Math.floor(Math.random() * songs.length)];
+
+        res.json({
+            response_type: 'in_channel',
+            text: ':slowparrot:\n' + song
         });
     }
 
