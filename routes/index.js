@@ -36,7 +36,7 @@ router.post('/', function(req, res, next) {
             });
         }).catch(function(error) {
             process.stdout.write('ERROR!');
-            process.stdout.write(error);
+            process.stdout.write(error.toString());
             res.status(400).json({
                 error: {
                     code: 400,
@@ -58,8 +58,8 @@ function getAccessToken() {
             body: 'grant_type=client_credentials'
         }, function(error, response, body) {
             process.stdout.write('ACCESS');
-            process.stdout.write(error);
-            process.stdout.write(body);
+            process.stdout.write(error.toString());
+            process.stdout.write(body.toString());
             if (!error && response.statusCode == 200) {
                 client.set('access_token', body.access_token);
                 client.expire('access_token', body.expires_in);
