@@ -72,9 +72,12 @@ function getAccessToken() {
 
                 getTracks().then(function(song) {
                     resolve(song);
+                }).catch(function(error) {
+                    reject(error)
                 });
+            } else {
+                reject(error);
             }
-            reject(error);
         });
     });
 }
@@ -93,8 +96,9 @@ function getTracks() {
                     var song = songs[Math.floor(Math.random() * songs.length)];
 
                     resolve(song);
+                } else {
+                    reject(error);
                 }
-                reject(error);
             });
         });
     });
