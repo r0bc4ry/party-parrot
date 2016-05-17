@@ -30,7 +30,7 @@ router.post('/', function(req, res, next) {
                 json: true,
                 body: {
                     response_type: 'in_channel',
-                    text: 'I\'m so tired of partying. So very tired. I\'ll be ready to party again in ' + (reply / 60) + ' minutes.'
+                    text: 'I\'m so tired of partying. So very tired. I\'ll be ready to party again in ' + Math.round(reply / 60) + ' minutes.'
                 }
             });
         } else {
