@@ -24,7 +24,7 @@ router.post('/', function(req, res, next) {
     });
 
     client.get('buzzkill', function(err, reply) {
-        if (reply === true) {
+        if (reply) {
             // See if a buzzkill is present to prevent anyone from partying too hard
             request.post(req.body.response_url, {
                 json: true,
