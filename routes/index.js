@@ -23,14 +23,14 @@ router.post('/', function(req, res, next) {
         response_type: 'in_channel'
     });
 
-    client.get('buzzkill', function(err, reply) {
-        if (reply) {
-            // See if a buzzkill is present to prevent anyone from partying too hard
+    client.ttl('buzzkill', function(err, reply) {
+        // See if a buzzkill is present to prevent anyone from partying too hard
+        if (reply && reply > 0) {
             request.post(req.body.response_url, {
                 json: true,
                 body: {
                     response_type: 'in_channel',
-                    text: 'I\'m so tired of partying. So very tired.'
+                    text: 'I\'m so tired of partying. So very tired. I\'ll be ready to party again in ' + (reply / 60) + ' minutes.'
                 }
             });
         } else {
@@ -47,8 +47,6 @@ router.post('/', function(req, res, next) {
 });
 
 function partyHard(responseUrl) {
-    process.stdout.write('partyHard');
-
     // Post the Spotify song link
     request.post(responseUrl, {
         json: true,
@@ -57,8 +55,6 @@ function partyHard(responseUrl) {
             text: 'https://open.spotify.com/track/0E0bZtTG39K95uRjqBo1Mx'
         }
     }, function() {
-        process.stdout.write('partyHard 2');
-
         // Start the party
         request.post(responseUrl, {
             json: true,
@@ -71,8 +67,6 @@ function partyHard(responseUrl) {
 }
 
 function partySlow(responseUrl) {
-    process.stdout.write('partySlow');
-
     var songs = [
         'https://open.spotify.com/track/4jDmJ51x1o9NZB5Nxxc7gY',
         'https://open.spotify.com/track/27ncbKwESFYzgBo9RN9IXe',
@@ -96,8 +90,6 @@ function partySlow(responseUrl) {
             text: song
         }
     }, function() {
-        process.stdout.write('partySlow 2');
-
         // Start the party
         request.post(responseUrl, {
             json: true,
@@ -110,14 +102,10 @@ function partySlow(responseUrl) {
 }
 
 function party(responseUrl) {
-    process.stdout.write('party');
-
     // Get access token from Redis or retrieve it from Spotify
     client.get('access_token', function(err, reply) {
-        process.stdout.write('party2');
         var spotifyPromise = reply ? getTracks() : getAccessToken();
         spotifyPromise.then(function(song) {
-            process.stdout.write('party3');
             if (!song) {
                 return request.post(responseUrl, {
                     json: true,
@@ -135,7 +123,6 @@ function party(responseUrl) {
                     text: song.track.external_urls.spotify
                 }
             }, function() {
-                process.stdout.write('party4');
                 // Start the party
                 request.post(responseUrl, {
                     json: true,
@@ -167,7 +154,6 @@ function party(responseUrl) {
 }
 
 function getAccessToken() {
-    process.stdout.write('getAccessToken');
     return new Promise(function(resolve, reject) {
         request.post('https://accounts.spotify.com/api/token', {
             headers: {
@@ -177,7 +163,6 @@ function getAccessToken() {
             json: true,
             body: 'grant_type=client_credentials'
         }, function(error, response, body) {
-            process.stdout.write('getAccessToken1');
             if (error || response.statusCode !== 200) {
                 return reject(error || body);
             }
@@ -195,7 +180,6 @@ function getAccessToken() {
 }
 
 function getTracks() {
-    process.stdout.write('getTracks');
     return new Promise(function(resolve, reject) {
         client.get('access_token', function(err, reply) {
             var spotifyPlaylistUrl = Math.random() < 0.5 ? 'https://api.spotify.com/v1/users/spotify/playlists/2JkjXscXs35c5wKE5ZeaYK/tracks' : 'https://api.spotify.com/v1/users/spotify/playlists/2ruCyy85iUzZcTZbeSVFRY/tracks';
@@ -205,7 +189,6 @@ function getTracks() {
                 },
                 json: true
             }, function(error, response, body) {
-                process.stdout.write('getTracks2');
                 if (error || response.statusCode !== 200) {
                     return reject(error || body);
                 }
