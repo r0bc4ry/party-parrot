@@ -75,7 +75,7 @@ router.post('/', function(req, res, next) {
                         response_type: 'in_channel',
                         text: '' +
                         ':congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot:' +
-                        ':discodancingparrot::discodancingparrot::discodancingparrot::spacer::spacer::discodancingparrot::spacer::spacer::discodancingparrot::discodancingparrot::discodancingparrot::spacer::discodancingparrot::discodancingparrot::discodancingparrot::spacer::discodancingparrot::spacer::discodancingparrot:' +
+                        ':middleparrot::middleparrot::middleparrot::spacer::spacer::middleparrot::spacer::spacer::middleparrot::middleparrot::middleparrot::spacer::middleparrot::middleparrot::middleparrot::spacer::middleparrot::spacer::middleparrot:' +
                         ':parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::spacer::parrotcop::spacer::spacer::parrotcop::spacer::parrotcop:' +
                         ':parrotdad::parrotdad::parrotdad::spacer::parrotdad::parrotdad::parrotdad::spacer::parrotdad::parrotdad::spacer::spacer::spacer::parrotdad::spacer::spacer::spacer::parrotdad::spacer:' +
                         ':partyparrot::spacer::spacer::spacer::partyparrot::spacer::partyparrot::spacer::partyparrot::spacer::partyparrot::spacer::spacer::partyparrot::spacer::spacer::spacer::partyparrot::spacer:' +
