@@ -60,7 +60,7 @@ function partyHard(responseUrl) {
             json: true,
             body: {
                 response_type: 'in_channel',
-                text: ':fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot:'
+                text: ':fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot:'
             }
         });
     });
@@ -95,7 +95,7 @@ function partySlow(responseUrl) {
             json: true,
             body: {
                 response_type: 'in_channel',
-                text: ':slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot:'
+                text: ':slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot:'
             }
         });
     });
