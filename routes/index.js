@@ -13,6 +13,7 @@ router.post('/', function(req, res, next) {
         res.json({text: 'Invalid Slack token.'});
     }
 
+    // Check if a `response_url` was given by Slack
     if (!req.body.response_url) {
         res.json({text: 'Missing `response_url`.'});
     }
@@ -22,62 +23,85 @@ router.post('/', function(req, res, next) {
         response_type: 'in_channel'
     });
 
-    // Support /party hard slash command
-    if (req.body.text === 'hard') {
-        // Post the Spotify song link
-        request.post(req.body.response_url, {
-            json: true,
-            body: {
-                response_type: 'in_channel',
-                text: 'https://open.spotify.com/track/0E0bZtTG39K95uRjqBo1Mx'
-            }
-        }, function() {
-            // Start the party
+    client.get('buzzkill', function(err, reply) {
+        if (reply === true) {
+            // See if a buzzkill is present to prevent anyone from partying too hard
             request.post(req.body.response_url, {
                 json: true,
                 body: {
                     response_type: 'in_channel',
-                    text: ':fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot:'
+                    text: 'I\'m so tired of partying. So very tired.'
                 }
             });
-        });
-    }
+        } else {
+            // Support multiple /party slash commands
+            if (req.body.text === 'hard') {
+                partyHard(req.body.response_url);
+            } else if (req.body.text === 'slow') {
+                partySlow(req.body.response_url);
+            } else {
+                party(req.body.response_url);
+            }
+        }
+    });
+});
 
-    // Support /party soft slash command
-    if (req.body.text === 'slow') {
-        var songs = [
-            'https://open.spotify.com/track/4jDmJ51x1o9NZB5Nxxc7gY',
-            'https://open.spotify.com/track/27ncbKwESFYzgBo9RN9IXe',
-            'https://open.spotify.com/track/1rLYWSXPrJGWnlGlSwPEia',
-            'https://open.spotify.com/track/4eHbdreAnSOrDDsFfc4Fpm',
-            'https://open.spotify.com/track/5GorFaKkP2mLREQvhSblIg',
-            'https://open.spotify.com/track/3Otjx9ULpmWdUbkDTYDXHc',
-            'https://open.spotify.com/track/68K0qD0VDqdm0eWXsGqnvM',
-            'https://open.spotify.com/track/665Jxlgi1HamPKbW1vwzx4',
-            'https://open.spotify.com/track/69hwHdKl4Y1HusAutt3W6q',
-            'https://open.spotify.com/track/7GhIk7Il098yCjg4BQjzvb'
-        ];
-        var song = songs[Math.floor(Math.random() * songs.length)];
-
-        // Post the Spotify song link
-        request.post(req.body.response_url, {
+function partyHard(responseUrl) {
+    // Post the Spotify song link
+    request.post(responseUrl, {
+        json: true,
+        body: {
+            response_type: 'in_channel',
+            text: 'https://open.spotify.com/track/0E0bZtTG39K95uRjqBo1Mx'
+        }
+    }, function() {
+        // Start the party
+        request.post(responseUrl, {
             json: true,
             body: {
                 response_type: 'in_channel',
-                text: song
+                text: ':fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot:'
             }
-        }, function() {
-            // Start the party
-            request.post(req.body.response_url, {
-                json: true,
-                body: {
-                    response_type: 'in_channel',
-                    text: ':slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot:'
-                }
-            });
         });
-    }
+    });
+}
 
+function partySlow(responseUrl) {
+    var songs = [
+        'https://open.spotify.com/track/4jDmJ51x1o9NZB5Nxxc7gY',
+        'https://open.spotify.com/track/27ncbKwESFYzgBo9RN9IXe',
+        'https://open.spotify.com/track/1rLYWSXPrJGWnlGlSwPEia',
+        'https://open.spotify.com/track/4eHbdreAnSOrDDsFfc4Fpm',
+        'https://open.spotify.com/track/5GorFaKkP2mLREQvhSblIg',
+        'https://open.spotify.com/track/3Otjx9ULpmWdUbkDTYDXHc',
+        'https://open.spotify.com/track/68K0qD0VDqdm0eWXsGqnvM',
+        'https://open.spotify.com/track/665Jxlgi1HamPKbW1vwzx4',
+        'https://open.spotify.com/track/69hwHdKl4Y1HusAutt3W6q',
+        'https://open.spotify.com/track/7GhIk7Il098yCjg4BQjzvb'
+    ];
+
+    var song = songs[Math.floor(Math.random() * songs.length)];
+
+    // Post the Spotify song link
+    request.post(responseUrl, {
+        json: true,
+        body: {
+            response_type: 'in_channel',
+            text: song
+        }
+    }, function() {
+        // Start the party
+        request.post(responseUrl, {
+            json: true,
+            body: {
+                response_type: 'in_channel',
+                text: ':slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot:'
+            }
+        });
+    });
+}
+
+function party(responseUrl) {
     // Get access token from Redis or retrieve it from Spotify
     client.get('access_token', function(err, reply) {
         var spotifyPromise = reply ? getTracks() : getAccessToken();
@@ -87,7 +111,7 @@ router.post('/', function(req, res, next) {
             }
 
             // Post the Spotify song link
-            request.post(req.body.response_url, {
+            request.post(responseUrl, {
                 json: true,
                 body: {
                     response_type: 'in_channel',
@@ -95,7 +119,7 @@ router.post('/', function(req, res, next) {
                 }
             }, function() {
                 // Start the party
-                request.post(req.body.response_url, {
+                request.post(responseUrl, {
                     json: true,
                     body: {
                         response_type: 'in_channel',
@@ -109,11 +133,15 @@ router.post('/', function(req, res, next) {
                     }
                 });
             });
+
+            // Set a buzzkill to prevent anyone from partying too hard
+            client.set('buzzkill', true);
+            client.expire('buzzkill', 14400);
         }).catch(function(reason) {
             res.json({text: reason});
         });
     });
-});
+}
 
 function getAccessToken() {
     return new Promise(function(resolve, reject) {
