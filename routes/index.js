@@ -23,34 +23,60 @@ router.post('/', function(req, res, next) {
     });
 
     // Support /party hard slash command
-    // if (req.body.text === 'hard') {
-    //     res.json({
-    //         response_type: 'in_channel',
-    //         text: ':fastparrot:\nhttps://open.spotify.com/track/0E0bZtTG39K95uRjqBo1Mx'
-    //     });
-    // }
+    if (req.body.text === 'hard') {
+        // Post the Spotify song link
+        request.post(req.body.response_url, {
+            json: true,
+            body: {
+                response_type: 'in_channel',
+                text: 'https://open.spotify.com/track/0E0bZtTG39K95uRjqBo1Mx'
+            }
+        }, function() {
+            // Start the party
+            request.post(req.body.response_url, {
+                json: true,
+                body: {
+                    response_type: 'in_channel',
+                    text: ':fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot:' +
+                }
+            });
+        });
+    }
 
     // Support /party soft slash command
-    // if (req.body.text === 'soft') {
-    //     var songs = [
-    //         'https://open.spotify.com/track/4jDmJ51x1o9NZB5Nxxc7gY',
-    //         'https://open.spotify.com/track/27ncbKwESFYzgBo9RN9IXe',
-    //         'https://open.spotify.com/track/1rLYWSXPrJGWnlGlSwPEia',
-    //         'https://open.spotify.com/track/4eHbdreAnSOrDDsFfc4Fpm',
-    //         'https://open.spotify.com/track/5GorFaKkP2mLREQvhSblIg',
-    //         'https://open.spotify.com/track/3Otjx9ULpmWdUbkDTYDXHc',
-    //         'https://open.spotify.com/track/68K0qD0VDqdm0eWXsGqnvM',
-    //         'https://open.spotify.com/track/665Jxlgi1HamPKbW1vwzx4',
-    //         'https://open.spotify.com/track/69hwHdKl4Y1HusAutt3W6q',
-    //         'https://open.spotify.com/track/7GhIk7Il098yCjg4BQjzvb'
-    //     ];
-    //     var song = songs[Math.floor(Math.random() * songs.length)];
-    //
-    //     res.json({
-    //         response_type: 'in_channel',
-    //         text: ':slowparrot:\n' + song
-    //     });
-    // }
+    if (req.body.text === 'slow') {
+        var songs = [
+            'https://open.spotify.com/track/4jDmJ51x1o9NZB5Nxxc7gY',
+            'https://open.spotify.com/track/27ncbKwESFYzgBo9RN9IXe',
+            'https://open.spotify.com/track/1rLYWSXPrJGWnlGlSwPEia',
+            'https://open.spotify.com/track/4eHbdreAnSOrDDsFfc4Fpm',
+            'https://open.spotify.com/track/5GorFaKkP2mLREQvhSblIg',
+            'https://open.spotify.com/track/3Otjx9ULpmWdUbkDTYDXHc',
+            'https://open.spotify.com/track/68K0qD0VDqdm0eWXsGqnvM',
+            'https://open.spotify.com/track/665Jxlgi1HamPKbW1vwzx4',
+            'https://open.spotify.com/track/69hwHdKl4Y1HusAutt3W6q',
+            'https://open.spotify.com/track/7GhIk7Il098yCjg4BQjzvb'
+        ];
+        var song = songs[Math.floor(Math.random() * songs.length)];
+
+        // Post the Spotify song link
+        request.post(req.body.response_url, {
+            json: true,
+            body: {
+                response_type: 'in_channel',
+                text: song
+            }
+        }, function() {
+            // Start the party
+            request.post(req.body.response_url, {
+                json: true,
+                body: {
+                    response_type: 'in_channel',
+                    text: ':slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot:' +
+                }
+            });
+        });
+    }
 
     // Get access token from Redis or retrieve it from Spotify
     client.get('access_token', function(err, reply) {
