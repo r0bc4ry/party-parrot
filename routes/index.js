@@ -62,20 +62,26 @@ router.post('/', function(req, res, next) {
 
             // Post the Spotify song link
             request.post(req.body.response_url, {
-                response_type: 'in_channel',
-                text: song.track.external_urls.spotify
+                json: true,
+                body: {
+                    response_type: 'in_channel',
+                    text: song.track.external_urls.spotify
+                }
             }, function() {
                 // Start the party
                 request.post(req.body.response_url, {
-                    response_type: 'in_channel',
-                    text: '' +
-                    ':congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot:' +
-                    ':discodancingparrot::discodancingparrot::discodancingparrot::spacer::spacer::discodancingparrot::spacer::spacer::discodancingparrot::discodancingparrot::discodancingparrot::spacer::discodancingparrot::discodancingparrot::discodancingparrot::spacer::discodancingparrot::spacer::discodancingparrot:' +
-                    ':parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::spacer::parrotcop::spacer::spacer::parrotcop::spacer::parrotcop:' +
-                    ':parrotdad::parrotdad::parrotdad::spacer::parrotdad::parrotdad::parrotdad::spacer::parrotdad::parrotdad::spacer::spacer::spacer::parrotdad::spacer::spacer::spacer::parrotdad::spacer:' +
-                    ':partyparrot::spacer::spacer::spacer::partyparrot::spacer::partyparrot::spacer::partyparrot::spacer::partyparrot::spacer::spacer::partyparrot::spacer::spacer::spacer::partyparrot::spacer:' +
-                    ':aussieparrot::spacer::spacer::spacer::aussieparrot::spacer::aussieparrot::spacer::aussieparrot::spacer::aussieparrot::spacer::spacer::aussieparrot::spacer::spacer::spacer::aussieparrot::spacer:' +
-                    ':congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot:'
+                    json: true,
+                    body: {
+                        response_type: 'in_channel',
+                        text: '' +
+                        ':congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot:' +
+                        ':discodancingparrot::discodancingparrot::discodancingparrot::spacer::spacer::discodancingparrot::spacer::spacer::discodancingparrot::discodancingparrot::discodancingparrot::spacer::discodancingparrot::discodancingparrot::discodancingparrot::spacer::discodancingparrot::spacer::discodancingparrot:' +
+                        ':parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::spacer::parrotcop::spacer::spacer::parrotcop::spacer::parrotcop:' +
+                        ':parrotdad::parrotdad::parrotdad::spacer::parrotdad::parrotdad::parrotdad::spacer::parrotdad::parrotdad::spacer::spacer::spacer::parrotdad::spacer::spacer::spacer::parrotdad::spacer:' +
+                        ':partyparrot::spacer::spacer::spacer::partyparrot::spacer::partyparrot::spacer::partyparrot::spacer::partyparrot::spacer::spacer::partyparrot::spacer::spacer::spacer::partyparrot::spacer:' +
+                        ':aussieparrot::spacer::spacer::spacer::aussieparrot::spacer::aussieparrot::spacer::aussieparrot::spacer::aussieparrot::spacer::spacer::aussieparrot::spacer::spacer::spacer::aussieparrot::spacer:' +
+                        ':congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot:'
+                    }
                 });
             });
         }).catch(function(reason) {
@@ -92,7 +98,9 @@ function getAccessToken() {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             json: true,
-            body: 'grant_type=client_credentials'
+            body: {
+                grant_type: 'client_credentials'
+            }
         }, function(error, response, body) {
             if (error || response.statusCode !== 200) {
                 return reject(error || body);
