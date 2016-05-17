@@ -141,7 +141,7 @@ function party(responseUrl) {
 
             // Set a buzzkill to prevent anyone from partying too hard
             client.set('buzzkill', true);
-            client.expire('buzzkill', 14400);
+            client.expire('buzzkill', 3600);
         }).catch(function(reason) {
             request.post(responseUrl, {
                 json: true,
