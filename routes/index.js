@@ -99,13 +99,12 @@ router.post('/', function(req, res, next) {
                     json: true,
                     body: {
                         response_type: 'in_channel',
-                        text: '' +
-                        ':congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot:' +
-                        ':middleparrot::middleparrot::middleparrot::spacer::spacer::middleparrot::spacer::spacer::middleparrot::middleparrot::middleparrot::spacer::middleparrot::middleparrot::middleparrot::spacer::middleparrot::spacer::middleparrot:' +
-                        ':parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::spacer::parrotcop::spacer::spacer::parrotcop::spacer::parrotcop:' +
-                        ':parrotdad::parrotdad::parrotdad::spacer::parrotdad::parrotdad::parrotdad::spacer::parrotdad::parrotdad::spacer::spacer::spacer::parrotdad::spacer::spacer::spacer::parrotdad::spacer:' +
-                        ':partyparrot::spacer::spacer::spacer::partyparrot::spacer::partyparrot::spacer::partyparrot::spacer::partyparrot::spacer::spacer::partyparrot::spacer::spacer::spacer::partyparrot::spacer:' +
-                        ':aussieparrot::spacer::spacer::spacer::aussieparrot::spacer::aussieparrot::spacer::aussieparrot::spacer::aussieparrot::spacer::spacer::aussieparrot::spacer::spacer::spacer::aussieparrot::spacer:' +
+                        text: ':congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot:\n' +
+                        ':middleparrot::middleparrot::middleparrot::spacer::spacer::middleparrot::spacer::spacer::middleparrot::middleparrot::middleparrot::spacer::middleparrot::middleparrot::middleparrot::spacer::middleparrot::spacer::middleparrot:\n' +
+                        ':parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::parrotcop::spacer::spacer::parrotcop::spacer::spacer::parrotcop::spacer::parrotcop:\n' +
+                        ':parrotdad::parrotdad::parrotdad::spacer::parrotdad::parrotdad::parrotdad::spacer::parrotdad::parrotdad::spacer::spacer::spacer::parrotdad::spacer::spacer::spacer::parrotdad::spacer:\n' +
+                        ':partyparrot::spacer::spacer::spacer::partyparrot::spacer::partyparrot::spacer::partyparrot::spacer::partyparrot::spacer::spacer::partyparrot::spacer::spacer::spacer::partyparrot::spacer:\n' +
+                        ':aussieparrot::spacer::spacer::spacer::aussieparrot::spacer::aussieparrot::spacer::aussieparrot::spacer::aussieparrot::spacer::spacer::aussieparrot::spacer::spacer::spacer::aussieparrot::spacer:\n' +
                         ':congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot::congaparrot:'
                     }
                 });
