@@ -175,9 +175,7 @@ function getAccessToken() {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             json: true,
-            body: {
-                grant_type: 'client_credentials'
-            }
+            body: 'grant_type=client_credentials'
         }, function(error, response, body) {
             process.stdout.write('getAccessToken1');
             if (error || response.statusCode !== 200) {
