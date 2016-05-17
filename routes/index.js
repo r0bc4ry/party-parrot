@@ -25,7 +25,7 @@ router.post('/', function(req, res, next) {
 
     // Support multiple /party arguments
     if (req.body.text === 'hard') {
-        client.ttl('buzzkill_hard', function(err, reply) {
+        return client.ttl('buzzkill_hard', function(err, reply) {
             // See if a buzzkill is present to prevent anyone from partying too hard
             if (reply && reply > 0) {
                 request.post(req.body.response_url, {
@@ -39,7 +39,6 @@ router.post('/', function(req, res, next) {
                 partyHard(req.body.response_url);
             }
         });
-        partyHard(req.body.response_url);
     } else if (req.body.text === 'slow') {
         client.ttl('buzzkill_slow', function(err, reply) {
             // See if a buzzkill is present to prevent anyone from partying too hard
@@ -55,7 +54,6 @@ router.post('/', function(req, res, next) {
                 partySlow(req.body.response_url);
             }
         });
-        partySlow(req.body.response_url);
     } else {
         client.ttl('buzzkill', function(err, reply) {
             // See if a buzzkill is present to prevent anyone from partying too hard
@@ -71,30 +69,7 @@ router.post('/', function(req, res, next) {
                 party(req.body.response_url);
             }
         });
-        party(req.body.response_url);
     }
-
-    client.ttl('buzzkill', function(err, reply) {
-        // See if a buzzkill is present to prevent anyone from partying too hard
-        if (reply && reply > 0) {
-            request.post(req.body.response_url, {
-                json: true,
-                body: {
-                    response_type: 'in_channel',
-                    text: 'I\'m so tired of partying. So very tired. I\'ll be ready to party again in ' + Math.round(reply / 60) + ' minutes.'
-                }
-            });
-        } else {
-            // Support multiple /party arguments
-            if (req.body.text === 'hard') {
-                partyHard(req.body.response_url);
-            } else if (req.body.text === 'slow') {
-                partySlow(req.body.response_url);
-            } else {
-                party(req.body.response_url);
-            }
-        }
-    });
 });
 
 function partyHard(responseUrl) {
