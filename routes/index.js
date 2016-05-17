@@ -107,7 +107,12 @@ function party(responseUrl) {
         var spotifyPromise = reply ? getTracks() : getAccessToken();
         spotifyPromise.then(function(song) {
             if (!song) {
-                res.json({text: 'No song found.'});
+                request.post(responseUrl, {
+                    json: true,
+                    body: {
+                        text: 'No song found.'
+                    }
+                });
             }
 
             // Post the Spotify song link
@@ -138,7 +143,12 @@ function party(responseUrl) {
             client.set('buzzkill', true);
             client.expire('buzzkill', 14400);
         }).catch(function(reason) {
-            res.json({text: reason});
+            request.post(responseUrl, {
+                json: true,
+                body: {
+                    text: reason
+                }
+            });
         });
     });
 }
