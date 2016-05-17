@@ -23,6 +23,57 @@ router.post('/', function(req, res, next) {
         response_type: 'in_channel'
     });
 
+    // Support multiple /party arguments
+    if (req.body.text === 'hard') {
+        client.ttl('buzzkill_hard', function(err, reply) {
+            // See if a buzzkill is present to prevent anyone from partying too hard
+            if (reply && reply > 0) {
+                request.post(req.body.response_url, {
+                    json: true,
+                    body: {
+                        response_type: 'in_channel',
+                        text: 'Not even Andrew W.K. can party this hard. I\'ll be ready to party again in ' + Math.round(reply / 60) + ' minutes.'
+                    }
+                });
+            } else {
+                partyHard(req.body.response_url);
+            }
+        });
+        partyHard(req.body.response_url);
+    } else if (req.body.text === 'slow') {
+        client.ttl('buzzkill_slow', function(err, reply) {
+            // See if a buzzkill is present to prevent anyone from partying too hard
+            if (reply && reply > 0) {
+                request.post(req.body.response_url, {
+                    json: true,
+                    body: {
+                        response_type: 'in_channel',
+                        text: 'No more slow jams right now. I\'ll be ready to party again in ' + Math.round(reply / 60) + ' minutes.'
+                    }
+                });
+            } else {
+                partySlow(req.body.response_url);
+            }
+        });
+        partySlow(req.body.response_url);
+    } else {
+        client.ttl('buzzkill', function(err, reply) {
+            // See if a buzzkill is present to prevent anyone from partying too hard
+            if (reply && reply > 0) {
+                request.post(req.body.response_url, {
+                    json: true,
+                    body: {
+                        response_type: 'in_channel',
+                        text: 'I\'m so tired of partying. So very tired. I\'ll be ready to party again in ' + Math.round(reply / 60) + ' minutes.'
+                    }
+                });
+            } else {
+                party(req.body.response_url);
+            }
+        });
+        party(req.body.response_url);
+    }
+
     client.ttl('buzzkill', function(err, reply) {
         // See if a buzzkill is present to prevent anyone from partying too hard
         if (reply && reply > 0) {
@@ -47,12 +98,14 @@ router.post('/', function(req, res, next) {
 });
 
 function partyHard(responseUrl) {
+    var song = 'https://open.spotify.com/track/0E0bZtTG39K95uRjqBo1Mx';
+
     // Post the Spotify song link
     request.post(responseUrl, {
         json: true,
         body: {
             response_type: 'in_channel',
-            text: 'https://open.spotify.com/track/0E0bZtTG39K95uRjqBo1Mx'
+            text: song
         }
     }, function() {
         // Start the party
@@ -63,6 +116,10 @@ function partyHard(responseUrl) {
                 text: ':fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot::fastparrot:'
             }
         });
+
+        // Set a buzzkill to prevent anyone from partying too hard
+        client.set('buzzkill_hard', song);
+        client.expire('buzzkill_hard', 3600);
     });
 }
 
@@ -98,6 +155,10 @@ function partySlow(responseUrl) {
                 text: ':slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot::slowparrot:'
             }
         });
+
+        // Set a buzzkill to prevent anyone from partying too hard
+        client.set('buzzkill_slow', song);
+        client.expire('buzzkill_slow', 3600);
     });
 }
 
