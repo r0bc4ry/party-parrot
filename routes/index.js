@@ -10,12 +10,12 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
     // Check if Slack token is valid
     if (req.body.token !== process.env.TOKEN) {
-        res.json({text: 'Invalid Slack token.'});
+        return res.json({text: 'Invalid Slack token.'});
     }
 
     // Check if a `response_url` was given by Slack
     if (!req.body.response_url) {
-        res.json({text: 'Missing `response_url`.'});
+        return res.json({text: 'Missing `response_url`.'});
     }
 
     // Respond immediately and provide multiple delayed responses later
@@ -34,7 +34,7 @@ router.post('/', function(req, res, next) {
                 }
             });
         } else {
-            // Support multiple /party slash commands
+            // Support multiple /party arguments
             if (req.body.text === 'hard') {
                 partyHard(req.body.response_url);
             } else if (req.body.text === 'slow') {
@@ -107,7 +107,7 @@ function party(responseUrl) {
         var spotifyPromise = reply ? getTracks() : getAccessToken();
         spotifyPromise.then(function(song) {
             if (!song) {
-                request.post(responseUrl, {
+                return request.post(responseUrl, {
                     json: true,
                     body: {
                         text: 'No song found.'
@@ -140,10 +140,10 @@ function party(responseUrl) {
             });
 
             // Set a buzzkill to prevent anyone from partying too hard
-            client.set('buzzkill', true);
+            client.set('buzzkill', song.track.external_urls.spotify);
             client.expire('buzzkill', 3600);
         }).catch(function(reason) {
-            request.post(responseUrl, {
+            return request.post(responseUrl, {
                 json: true,
                 body: {
                     text: reason
